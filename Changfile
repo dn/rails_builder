@@ -1,0 +1,16 @@
+version 0.1
+from base
+run apt-get update 
+run apt-get install -y -q git-core
+copy git-wrapper /usr/local/bin/git
+run apt-get install -y -q libssl-dev zlib1g-dev libreadline-dev build-essential wget
+run mkdir /opt/rails_builder
+run git clone https://github.com/sstephenson/ruby-build.git /opt/rails_builder/ruby-build
+run cd /opt/rails_builder/ruby-build && ./install.sh
+run mkdir /opt/rubies
+run ruby-build 2.0.0-p0 /opt/rubies/ruby-2.0.0-p0
+run wget -O /opt/rails_builder/chruby-0.3.4.tar.gz https://github.com/postmodern/chruby/archive/v0.3.4.tar.gz
+run cd /opt/rails_builder && tar -xzvf chruby-0.3.4.tar.gz
+run cd /opt/rails_builder/chruby-0.3.4 && make install
+copy chruby.sh /etc/profile.d/chruby.sh
+run echo "ruby-2.0.0-p0" > /.ruby-version
